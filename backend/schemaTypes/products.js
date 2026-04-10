@@ -1,3 +1,5 @@
+import category from "./category"
+
 const products = {
     name: "product",
     title: "Produkter",
@@ -7,6 +9,18 @@ const products = {
             name: "productname",
             title: "Produktnavn",
             type: "string"
+        },
+        {
+            title: 'Slug',
+            name: 'slug',
+            type: 'slug',
+            options: {
+                source: 'productname',
+                slugify: input => input
+                                    .toLowerCase()
+                                    .replace(/\s+/g, '-')
+                                    .slice(0, 100) 
+            }
         },
         {
             name: "price",
@@ -29,7 +43,22 @@ const products = {
             type: "reference",
             to: [{type: "category"}]
         }
-    ]
+    ],
+    preview: {
+        select: {
+            title: "productname",
+            inCat: "productcategory.categoryname",
+            image: "productimage"
+        },
+        prepare(selection) {
+            const {title, inCat, image} = selection
+            return {
+                title: title,
+                subtitle: `Kategori: ${inCat ? inCat : "Ukjent"}`,
+                media: image
+            }
+        }
+    }
 }
 
 export default products

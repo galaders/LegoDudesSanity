@@ -1,69 +1,71 @@
 import CartItem from "./CartItem"
-export default function Cart({isOpen, cart, setCart, totalSum}){
-    return (
-      <>
+
+// Komponent som viser handlekurven
+// Props:
+// - isOpen: boolean som bestemmer om handlekurven skal vises
+// - cart: array med produkter i handlekurven
+// - setCart: funksjon for å oppdatere handlekurven
+// - totalSum: forhåndsberegnet totalpris (kan også beregnes fra cart)
+export default function Cart({ isOpen, cart, setCart, totalSum }) {
+  return (
+    <>
+      {/*
+        Hele handlekurv-seksjonen.
+        Klassen "hidden" brukes for å skjule elementet når isOpen er false.
+      */}
+      <section id="cart" className={isOpen ? "" : "hidden"}>
+
         {/*
-          Hele handlekurv-seksjonen.
-          Vises eller skjules basert på verdien av isOpen.
+          Tabell som inneholder radene for hvert element i handlekurven.
+          Vi bruker <tbody> for å holde radene samlet.
         */}
-        <section id="cart" className={isOpen ? "" : "hidden"}>
+        <table id="cart-items">
+          <tbody>
 
-          {/*
-            Tabell som inneholder innholdet i handlekurven
-          */}
-          <table id="cart-items">
-            <tbody>
+            {/*
+              Hvis handlekurven er tom (cart.length <= 0):
+              - Vis en enkel rad med en melding.
+              Ellers:
+              - Gå gjennom cart med .map og render en CartItem for hvert produkt.
+            */}
+            {cart.length <= 0 ? (
 
-              {/*
-                Betinget rendering (ternary-operator):
+              // Handlekurven er tom
+              <tr>
+                <td>Ingen varer i handlevognen enda.</td>
+              </tr>
 
-                SJEKK:
-                cart.length <= 0
-                → Er handlekurven tom?
-              */}
-              {cart.length <= 0 ? (
+            ) : (
 
-                /*
-                  Hvis handlekurven er tom:
-                  - Vis en melding til brukeren
-                */
-                <tr>
-                  <td>Ingen varer i handlevognen enda.</td>
-                </tr>
-
-              ) : (
+              // Handlekurven har ett eller flere produkter
+              cart.map(p => (
 
                 /*
-                  Hvis handlekurven IKKE er tom:
-                  - Gå gjennom alle produkter i cart
-                  - Render én CartItem-komponent per produkt
+                  Hver CartItem representerer ett produkt i handlekurven.
+                  - key: unik identifikator for Reacts listehåndtering
+                  - p: produktobjektet sendes som prop
+                  - setCart: sendes videre slik at CartItem kan oppdatere kurven (fjerne, endre antall osv.)
                 */
-                cart.map(p => (
+                <CartItem
+                  key={p.prodid}
+                  p={p}
+                  setCart={setCart}
+                />
+              ))
+            )}
 
-                  /*
-                    CartItem får produktet p som prop.
-                    key er nødvendig for React når man renderer lister.
-                  */
-                  <CartItem
-                    key={p.prodid}
-                    p={p}
-                    setCart={setCart}
-                  />
-                ))
-              )}
+          </tbody>
+        </table>
 
-            </tbody>
-          </table>
+        {/*
+          Viser total pris for handlekurven.
+          Merk: totalSum kommer som prop her, men det er ofte tryggere å regne ut summen fra cart for å unngå avvik.
+        */}
+        <p>
+          Total pris: <span id="total-price">{totalSum}</span> NOK
+        </p>
 
-          {/*
-            Viser total pris for handlekurven.
-            Verdien bør egentlig beregnes dynamisk fra cart.
-          */}
-          <p>
-            Total pris: <span id="total-price">{totalSum}</span> NOK
-          </p>
-
-        </section>
-      </>
-    )
-  }
+      </section>
+    </>
+  )
+}

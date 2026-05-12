@@ -1,7 +1,9 @@
+/* Import av Google-font */
 @import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 
-
+/* Globale CSS-variabler for farger, typografi og layout */
 :root {
+    /* Fargepalett */
     --red: #da291c;
     --yellow: #ffd700;
     --blue: #006db7;
@@ -9,36 +11,45 @@
     --white: #fff;
     --black: #000;
 
-    --rootsize: 20px;
-    --maxwidth: 1200px;
-
+    /* Typografi og layout */
+    --rootsize: 20px;      /* grunnstørrelse for rem-beregninger hvis brukt */
+    --maxwidth: 1200px;    /* maks bredde for containeren */
 }
 
+/* Fjern standard margin/padding for body og html for konsistent layout */
 body, html {
     margin: 0;
     padding: 0;
 }
 
+/* Hovedstil for body */
 body {
+    /* Bruk Rubik-fonten importert øverst */
     font-family: 'Rubik', sans-serif;
+
+    /* Bakgrunnsfarge og bakgrunnsbilde */
     background-color: var(--yellow);
     background-image: url(website_images/mainbackground.png);
 }
 
+/* Standard avsnittstørrelse */
 p {
     font-size: 1rem;
 }
 
+/* H1-styling */
 h1 {
     margin: 0;
     padding: 0;
     max-width: 250px;
 
+    /* NB: Nestede regler her er skrevet i SCSS-syntaks i originalen.
+       I ren CSS må du bruke full selektor: h1 a { ... } og h1 a img { ... }.
+       Jeg beholder kommentaren, men husk å konvertere hvis du ikke bruker en preprosessor. */
     a {
         display: inline-block;
         width: 100%;
         overflow: hidden;
-
 
         img {
             width: 100%;
@@ -46,39 +57,43 @@ h1 {
         }
     }
 }
+
+/* Overskriftnivå 2 og 3 */
 h2 {
     font-size: 2.5rem;
     font-weight: 900;
 }
 
-h3{
+h3 {
     font-size: 1.5rem;
     font-weight: 600;
 }
 
-/* HOVEDOMRÅDE */
+/* HOVEDOMRÅDE: container som sentrerer innholdet og setter maks bredde */
 #container {
     width: 100%;
     max-width: var(--maxwidth);
     background-color: var(--white);
-    margin: 0 auto;
-    position: relative;
-
+    margin: 0 auto;       /* sentrerer horisontalt */
+    position: relative;   /* nødvendig for absolutt-posisjonerte barn (f.eks. cart) */
 }
 
+/* Header: logo og handlevogn-knapp */
 header {
     padding: 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: flex;                /* horisontal layout */
+    justify-content: space-between; /* logo til venstre, knapp til høyre */
+    align-items: center;          /* vertikal sentrering */
 }
 
+/* Stil for handlevogn-knappen */
 #cart-button {
     width: 70px;
     background: transparent;
     border: none;
-    position: relative;
+    position: relative; /* nødvendig for å posisjonere badge absolutt */
 
+    /* Merk: nested div-regel er SCSS-syntaks. I ren CSS: #cart-button div { ... } */
     div {
         background: var(--red);
         width: 30px;
@@ -94,18 +109,20 @@ header {
     }
 }
 
+/* Navigasjonsfelt */
 nav {
     background: var(--red);
     color: var(--white);
 
-    a{
+    /* Link-styling i nav */
+    a {
         display: inline-block;
         padding: 1rem;
         text-transform: uppercase;
         color: var(--white);
         text-decoration: none;
-        
-        
+
+        /* Hover-effekt for lenker */
         &:hover {
             background: var(--yellow);
             color: var(--black);
@@ -114,45 +131,54 @@ nav {
     }
 }
 
+/* Hovedinnhold og produktliste */
 main {
+    /* Produktliste: fleksboks som bryter linjer ved behov */
     #product-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    padding-left: 1rem;
-    padding-right: 2rem;
-    gap: 1rem;
-}
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        padding-left: 1rem;
+        padding-right: 2rem;
+        gap: 1rem; /* mellomrom mellom kortene */
+    }
+
+    /* H2 i main: full bredde og sentrert */
     h2 {
         width: 100%;
         text-align: center;
         text-transform: uppercase;
     }
 
+    /* Produktkort */
     .product-card {
-        max-width: calc(33% - 2rem);
+        max-width: calc(33% - 2rem); /* tre kolonner med litt mellomrom */
         background: var(--black);
         color: var(--white);
         padding: 1rem;
         box-sizing: border-box;
-        border-bottom: 1rem solid var(--green);
+        border-bottom: 1rem solid var(--green); /* tykk bunnstripe for stil */
         margin-bottom: 1rem;
 
-        a{
+        /* Lenker inne i kortet */
+        a {
             color: var(--yellow);
             text-decoration: none;
         }
 
+        /* Produktnavn */
         h3 {
             margin: 0;
             text-transform: uppercase;
         }
 
+        /* Paragrafer i kortet */
         p {
             margin: 0;
             margin-bottom: 5px;
         }
 
+        /* Knapper i kortet */
         button {
             background: var(--green);
             color: var(--white);
@@ -161,14 +187,14 @@ main {
             padding: 0.5rem 1rem;
         }
 
+        /* Bilde i kortet: fyller bredden */
         img {
             width: 100%;
         }
     }
 }
 
-/* HANDLEVOGN */
-
+/* HANDLEVOGN (sidepanel) */
 #cart {
     width: 550px;
     background: var(--black);
@@ -176,14 +202,16 @@ main {
     border-left: 0.5rem solid var(--green);
     border-bottom: 0.5rem solid var(--green);
     padding: 1rem;
-    position: absolute;
+    position: absolute; /* plasseres relativt til #container */
     top: 74px;
     right: 0;
 
-    &.hidden{
-        visibility: hidden;
+    /* Klasse som skjuler panelet */
+    &.hidden {
+        visibility: hidden; /* skjuler, men beholder layoutplass (her: absolutt posisjon) */
     }
 
+    /* Tabell inne i handlekurven */
     table {
         width: 100%;
         color: var(--white);

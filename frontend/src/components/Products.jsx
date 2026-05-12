@@ -6,7 +6,7 @@ export default function Products({products, setCart}){
 
     useEffect(() => {
       async function fetchAllProducts() {
-        const allProducts = await client.fetch("*[_type == 'product']{_id, productname, price, 'category': productcategory->categoryname, 'imageURL': productimage.asset->url}")
+        const allProducts = await client.fetch("*[_type == 'product']{_id, productname, price, 'category': productcategory->categoryname, 'imageURL': productimage.asset->url, 'slug': slug.current, description}")
         setSanityProducts(allProducts)
       }
 

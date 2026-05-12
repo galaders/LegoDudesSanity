@@ -1,31 +1,32 @@
+// Sanity-dokumenttype for kategorier
 const category = {
-    name: "category",
-    title: "Kategori",
-    type: "document",
+    name: "category", // intern type-identifikator
+    title: "Kategori", // visningsnavn i Studio
+    type: "document", // dokumenttype som kan opprettes i CMS
     fields: [
         {
-            name: "categoryname",
-            title: "Kategorinavn",
-            type: "string"
+            name: "categoryname", // feltets interne navn
+            title: "Kategorinavn", // etikett i Studio
+            type: "string" // tekstfelt for kategoriens navn
         },
         {
             title: 'Slug',
             name: 'slug',
             type: 'slug',
             options: {
-                source: 'categoryname',
+                source: 'categoryname', // bygger slug fra kategorinavnet
                 slugify: input => input
-                                    .toLowerCase()
-                                    .replace(/\s+/g, '-')
-                                    .slice(0, 100) 
+                                    .toLowerCase() // små bokstaver
+                                    .replace(/\s+/g, '-') // erstatter mellomrom med bindestrek
+                                    .slice(0, 100) // maks 100 tegn
             }
         },
         {
             name: "categoryimage",
             title: "Kategoribilde",
-            type: "image"
+            type: "image" // bildefelt for kategoriens illustrasjon
         }
     ]
 }
 
-export default category
+export default category // eksporterer schema-objektet for bruk i Sanity-konfigurasjonen

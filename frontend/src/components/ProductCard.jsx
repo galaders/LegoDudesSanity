@@ -1,9 +1,15 @@
+import { Link } from 'react-router-dom'
+
 export default  function ProductCard({p, setCart}){
       /*
         handleClick kjøres når brukeren klikker på
         f.eks. "Legg i handlekurv"-knappen.
       */
       const handleClick = () => {
+        if (!setCart) {
+          console.warn('Handlekurv ikke tilgjengelig for dette produktkortet.')
+          return
+        }
 
         /*
           setCart brukes for å oppdatere handlekurven (state).
@@ -69,7 +75,7 @@ export default  function ProductCard({p, setCart}){
       <article className="product-card">
           <img src={p.imageURL ? p.imageURL : "https://placehold.co/600x800?text=Bilde+kommer"} alt={p.productname} />
           <a href="#">{p.category}</a>
-          <h3>{p.productname}</h3>
+          <Link to={`/produkt/${p.slug}`} style={{textDecoration: 'none', color: 'inherit'}}><h3>{p.productname}</h3></Link>
           <p>Kr. {p.price},-</p>
           <button onClick={handleClick}>Legg til handlevogn</button>
       </article>
